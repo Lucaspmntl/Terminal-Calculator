@@ -16,23 +16,28 @@ public class ParseNumbers {
         }
     }
 
-
-
-
-    public void parseFormula(String formula, ArrayList<String> originalNumbers) {
-        String numbers = null;
-        String character = null;
+    public void setFormula(String formula, ArrayList<String> originalNumbers) {
+        String numbers = "";
+        String character = "";
         int indexArray = 0;
 
-        for (int i = 0; i < formula.length(); i++) {
-            int m = i+1;
+        for (int i = 0; i <= formula.length(); i++) {
+            int m = i + 1;
 
             if (isNumb(formula.substring(i, m))) {
-                numbers += formula.charAt(i);
+                if (i == formula.length()) {
+
+                    numbers += formula.substring(i, m);
+                    originalNumbers.set(indexArray, numbers);
+                }
+
+                else {
+                    numbers += formula.substring(i, m);
+                }
             }
 
             if (formula.substring(i, m) == "." || formula.substring(i, m) == ",") {
-                numbers += formula.charAt(i);
+                numbers += ",";
             }
 
             for (int itwo = 0; itwo < acceptedOperators.length; itwo++) {
@@ -40,12 +45,18 @@ public class ParseNumbers {
                 if (formula.substring(i, m) == acceptedOperators[itwo]) {
                     originalNumbers.set(indexArray, numbers);
                     indexArray++;
-                    numbers = null;
+
+                    numbers = "";
+                    character = "";
+
                     character = formula.substring(i, m);
                     originalNumbers.set(indexArray, character);
                 }
             }
 
+            if (i == formula.length() && isNumb(formula.substring(i, m)) == false) {
+                System.out.println("Error! the last character isn't a number");
+            }
         }
     }
 
