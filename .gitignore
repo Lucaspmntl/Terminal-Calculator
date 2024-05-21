@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 bin/
 .vscode/
 README.md
@@ -8,4 +9,9 @@ bin
 .vscode
 README.md
 lib/
+>>>>>>> 8998e643ef3ed3fd45dd3280dd322c3de595cdc1
+=======
+bin
+.vscode
+README.md
 >>>>>>> 8998e643ef3ed3fd45dd3280dd322c3de595cdc1
