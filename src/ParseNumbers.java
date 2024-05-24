@@ -1,14 +1,18 @@
-import java.util.Scanner;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ParseNumbers {
+
     ArrayList<String> originalNumbers = new ArrayList<>();
+
     private String[] acceptedOperators = { "+", "-", "x", "/" };
 
-    public boolean isNumb(String str) {
+    Exceptions error = new Exceptions();
+    ParseStrings pS = new ParseStrings();
+
+    public boolean isNumb(String string) {
         try {
-            Double.parseDouble(str);
+            Double.parseDouble(string);
             return true;
 
         } catch (NumberFormatException e) {
@@ -16,48 +20,87 @@ public class ParseNumbers {
         }
     }
 
-    public void setFormula(String formula, ArrayList<String> originalNumbers) {
+    public boolean charIsNumb(String string, int charIndex) {
+        boolean charIsNumb = isNumb(pS.getChar(string, charIndex));
+        return charIsNumb;
+    }
+
+    public ArrayList<String> setFormula(String formula, ArrayList<String> arrayFormula, String lastResult) {
         String numbers = "";
-        String character = "";
         int indexArray = 0;
 
-        for (int i = 0; i <= formula.length(); i++) {
-            int m = i + 1;
+        for (int i = 0; i < formula.length(); i++) {
 
-            if (isNumb(formula.substring(i, m))) {
-                if (i == formula.length()) {
+            if (i == 0) { // if is the first character
 
-                    numbers += formula.substring(i, m);
-                    originalNumbers.set(indexArray, numbers);
+                if (charIsNumb(formula, i) == true) {
+                    numbers += pS.getChar(formula, i);
                 }
 
-                else {
-                    numbers += formula.substring(i, m);
-                }
-            }
-
-            if (formula.substring(i, m) == "." || formula.substring(i, m) == ",") {
-                numbers += ",";
-            }
-
-            for (int itwo = 0; itwo < acceptedOperators.length; itwo++) {
-
-                if (formula.substring(i, m) == acceptedOperators[itwo]) {
-                    originalNumbers.set(indexArray, numbers);
+                else if (charIsNumb(formula, i) == false && !lastResult.equals("")) {
+                    arrayFormula.add(indexArray, lastResult);
                     indexArray++;
+                }
 
-                    numbers = "";
-                    character = "";
-
-                    character = formula.substring(i, m);
-                    originalNumbers.set(indexArray, character);
+                else if (charIsNumb(formula, i) == false && lastResult.equals("")) {
+                    System.out.println("Error! the first character isn't a number!");
                 }
             }
 
-            if (i == formula.length() && isNumb(formula.substring(i, m)) == false) {
-                System.out.println("Error! the last character isn't a number");
+            else if (i == formula.length() - 1) { // if is the last character
+                if (charIsNumb(formula, i) == true) {
+                    arrayFormula.add(indexArray, pS.getChar(formula, i));
+                }
+
+                else if (charIsNumb(formula, i) == false) {
+                    System.out.println("Error! the last character isn't a number");
+                }
+
             }
+
+            else if (charIsNumb(formula, i) == true) { // if is a number
+                numbers += pS.getChar(formula, i);
+            }
+
+            else if (charIsNumb(formula, i) == false) { // if isn't a number (an operator)
+
+                switch (pS.getChar(formula, i)) {
+                    case ".":
+                    case ",":
+                        numbers += ".";
+                        break;
+
+                    default:
+
+                        boolean existingOperator = false;
+
+                        for (int o = 0; o < acceptedOperators.length; o++) {
+
+                            if (pS.getChar(formula, i).equals(acceptedOperators[o])) {
+                                arrayFormula.add(indexArray, numbers);
+                                indexArray++;
+
+                                numbers = "";
+
+                                arrayFormula.add(indexArray, pS.getChar(formula, i));
+                                indexArray++;
+
+                                existingOperator = true;
+                                break; // for break
+                            }
+                        }
+
+                        if (existingOperator == false) { // if operator does not exist..
+                            System.out.println("Error! there is an invalid operator!");
+                        }
+
+                        break; // default break
+                }
+
+            }
+
         }
+        return arrayFormula;
     }
 
 }

@@ -7,7 +7,7 @@ public class Calculation {
     ParseNumbers parseNumbers = new ParseNumbers();
     Operators operator = new Operators();
 
-    public double calResult(ArrayList<String> arrayFormula) {
+    public String calResult(ArrayList<String> arrayFormula) {
         // ArrayList<String> flexibleFormula = (ArrayList<String>) arrayFormula.clone();
 
         for (int i = 0; i < arrayFormula.size(); i++) {
@@ -52,11 +52,11 @@ public class Calculation {
         }
 
         if (arrayFormula.size() == 1) {
-            double finalResult = Double.parseDouble(arrayFormula.get(0));
+            String finalResult = arrayFormula.get(0);
             return finalResult;
         }
 
         System.out.println("error in class Calculation");
-        return 0;
+        return "0";
     }
 }
