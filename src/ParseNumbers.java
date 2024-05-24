@@ -25,7 +25,7 @@ public class ParseNumbers {
         return charIsNumb;
     }
 
-    public void setFormula(String formula, ArrayList<String> arrayFormula, String lastResult) {
+    public ArrayList<String> setFormula(String formula, ArrayList<String> arrayFormula, String lastResult) {
         String numbers = "";
         int indexArray = 0;
 
@@ -100,6 +100,7 @@ public class ParseNumbers {
             }
 
         }
+        return arrayFormula;
     }
 
 }
