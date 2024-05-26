@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Calculation {
     double result;
-    double lastResult;
+    double lastResult = 0;
 
     ParseNumbers parseNumbers = new ParseNumbers();
     Operators operator = new Operators();
@@ -12,43 +12,56 @@ public class Calculation {
 
         for (int i = 0; i < arrayFormula.size(); i++) {
 
-            if (arrayFormula.get(i) == "/") {
-                lastResult = operator.division(arrayFormula, i - 1, i + 1);
+            switch (arrayFormula.get(i)) {
 
-                arrayFormula.remove(i);
-                arrayFormula.remove(i + 1);
-                arrayFormula.set(i - 1, String.valueOf(lastResult));
-                // Excluir o indice i e i+1 e substituir o i-1 pelo lastResult
-            }
+                case "/":
 
-            if (arrayFormula.get(i) == "x") {
-                lastResult = operator.multiplication(arrayFormula, i - 1, i + 1);
+                    lastResult = operator.division(arrayFormula, i - 1, i + 1);
 
-                arrayFormula.remove(i);
-                arrayFormula.remove(i + 1);
-                arrayFormula.set(i - 1, String.valueOf(lastResult));
+                    arrayFormula.remove(i + 1);
+                    arrayFormula.remove(i);
+                    arrayFormula.set(i - 1, String.valueOf(lastResult));
+                    i -= 2;
+                    break;
+
+                case "x":
+
+                    lastResult = operator.multiplication(arrayFormula, i - 1, i + 1);
+
+                    arrayFormula.remove(i + 1);
+                    arrayFormula.remove(i);
+                    arrayFormula.set(i - 1, String.valueOf(lastResult));
+                    i -= 2;
+                    break;
             }
 
         }
 
         for (int i = 0; i < arrayFormula.size(); i++) {
 
-            if (arrayFormula.get(i) == "+") {
-                lastResult = operator.addition(arrayFormula, i - 1, i + 1);
+            switch (arrayFormula.get(i)) {
 
-                arrayFormula.remove(i);
-                arrayFormula.remove(i + 1);
-                arrayFormula.set(i - 1, String.valueOf(lastResult));
+                case "+":
+
+                    lastResult = operator.addition(arrayFormula, i - 1, i + 1);
+
+                    arrayFormula.remove(i + 1);
+                    arrayFormula.remove(i);
+                    arrayFormula.set(i - 1, String.valueOf(lastResult));
+                    i -= 2;
+                    break;
+
+                case "-":
+
+                    lastResult = operator.subtraction(arrayFormula, i - 1, i + 1);
+
+                    arrayFormula.remove(i + 1);
+                    arrayFormula.remove(i);
+                    arrayFormula.set(i - 1, String.valueOf(lastResult));
+                    i -= 2;
+                    break;
             }
 
-            if (arrayFormula.get(i) == "-") {
-                lastResult = operator.subtraction(arrayFormula, i + 1, i - 1);
-
-                arrayFormula.remove(i);
-                arrayFormula.remove(i + 1);
-                arrayFormula.set(i - 1, String.valueOf(lastResult));
-
-            }
         }
 
         if (arrayFormula.size() == 1) {
@@ -56,7 +69,9 @@ public class Calculation {
             return finalResult;
         }
 
-        System.out.println("error in class Calculation");
-        return "0";
+        else {
+            System.out.println("error in class Calculation, array with than one index");
+            return "0";
+        }
     }
 }
