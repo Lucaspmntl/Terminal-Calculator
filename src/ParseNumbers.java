@@ -29,6 +29,8 @@ public class ParseNumbers {
         String numbers = "";
         int indexArray = 0;
 
+        formula = pS.removeSpaceChars(formula);
+
         for (int i = 0; i < formula.length(); i++) {
 
             if (i == 0) { // if is the first character
@@ -49,7 +51,8 @@ public class ParseNumbers {
 
             else if (i == formula.length() - 1) { // if is the last character
                 if (charIsNumb(formula, i) == true) {
-                    arrayFormula.add(indexArray, pS.getChar(formula, i));
+                    numbers += pS.getChar(formula, i);
+                    arrayFormula.add(indexArray, numbers);
                 }
 
                 else if (charIsNumb(formula, i) == false) {
