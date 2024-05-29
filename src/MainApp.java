@@ -8,9 +8,12 @@ public class MainApp {
 
         ParseNumbers parseNumbers = new ParseNumbers();
         Calculation calculus = new Calculation();
+        Options options = new Options();
+
+        String option = "";
 
         String lastResult = "";
-        String formula = "20x2+7-1";
+        String formula = "";
 
         System.out.println("---------------------------------- Calculator ----------------------------------");
         System.out.println();
@@ -18,18 +21,44 @@ public class MainApp {
         System.out.println();
         System.out.println("(+ = addition)    (- = Subtraction)    (x = Multiplication)    (/ = Division)");
         System.out.println();
+        System.out.println("           (c - To clear last result)      (e - To end the program)          ");
         System.out.println("Ex: \"50/2+5-1\" and press 'Enter' for results");
         System.out.println();
         System.out.println("---------------------------------- Calculator ----------------------------------");
         System.out.println();
-        System.out.print("Your calculation formula: ");
-        // formula = input.nextLine();
 
-        originalNumbersArray = parseNumbers.setFormula(formula, originalNumbersArray, lastResult);
+        outerLoop: while (!option.equals("e")) {
 
-        lastResult = calculus.calResult(originalNumbersArray);
-        System.out.println(lastResult);
+            System.out.print("Your calculation formula: " + lastResult);
 
+            option = options.parseOptions(formula);
+
+            switch (option) {
+
+                case "e":
+                    break outerLoop;
+
+                case "c":
+                    lastResult = "";
+                    options.spamNewLines();
+                    System.out.print("Your calculation formula: ");
+                    break;
+
+                default:
+                    break;
+            }
+
+            formula = input.nextLine();
+
+            originalNumbersArray = parseNumbers.setFormula(formula, originalNumbersArray, lastResult);
+
+            lastResult = calculus.calResult(originalNumbersArray);
+            System.out.println(lastResult);
+
+        }
+
+        System.out.println("\n\n\n");
+        System.out.println("Bye!");
         input.close();
     }
 

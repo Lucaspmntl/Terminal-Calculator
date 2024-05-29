@@ -28,20 +28,27 @@ public class ParseNumbers {
     public ArrayList<String> setFormula(String formula, ArrayList<String> arrayFormula, String lastResult) {
         String numbers = "";
         int indexArray = 0;
+        boolean conditionFirstCharMet = false;
 
         formula = pS.removeSpaceChars(formula);
 
         for (int i = 0; i < formula.length(); i++) {
 
-            if (i == 0) { // if is the first character
+            if (i == 0 && conditionFirstCharMet == false) { // if is the first character
 
                 if (charIsNumb(formula, i) == true) {
                     numbers += pS.getChar(formula, i);
                 }
 
                 else if (charIsNumb(formula, i) == false && !lastResult.equals("")) {
+
+                    arrayFormula.clear();
+
                     arrayFormula.add(indexArray, lastResult);
                     indexArray++;
+
+                    conditionFirstCharMet = true;
+                    i = -1;
                 }
 
                 else if (charIsNumb(formula, i) == false && lastResult.equals("")) {
@@ -77,19 +84,30 @@ public class ParseNumbers {
 
                         boolean existingOperator = false;
 
-                        for (int o = 0; o < acceptedOperators.length; o++) {
+                        outerLoop: for (int o = 0; o < acceptedOperators.length; o++) {
 
                             if (pS.getChar(formula, i).equals(acceptedOperators[o])) {
-                                arrayFormula.add(indexArray, numbers);
-                                indexArray++;
 
-                                numbers = "";
+                                switch (i) {
+                                    case 0: // If is the first character yet
+                                        arrayFormula.add(indexArray, pS.getChar(formula, i));
+                                        indexArray++;
+                                        existingOperator = true;
 
-                                arrayFormula.add(indexArray, pS.getChar(formula, i));
-                                indexArray++;
+                                        break outerLoop;
 
-                                existingOperator = true;
-                                break; // for break
+                                    default:
+                                        arrayFormula.add(indexArray, numbers);
+                                        indexArray++;
+
+                                        numbers = "";
+
+                                        arrayFormula.add(indexArray, pS.getChar(formula, i));
+                                        indexArray++;
+
+                                        existingOperator = true;
+                                        break outerLoop;
+                                }
                             }
                         }
 
