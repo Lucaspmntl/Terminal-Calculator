@@ -3,12 +3,12 @@ import java.util.ArrayList;
 public class Calculation {
     double result;
     double lastResult = 0;
+    String noDecimalResult;
 
-    ParseNumbers parseNumbers = new ParseNumbers();
+    ParseNumbers pN = new ParseNumbers();
     Operators operator = new Operators();
 
     public String calResult(ArrayList<String> arrayFormula) {
-        // ArrayList<String> flexibleFormula = (ArrayList<String>) arrayFormula.clone();
 
         for (int i = 0; i < arrayFormula.size(); i++) {
 
@@ -17,21 +17,24 @@ public class Calculation {
                 case "/":
 
                     lastResult = operator.division(arrayFormula, i - 1, i + 1);
+                    noDecimalResult = pN.tryNoDecimal(lastResult);
 
                     arrayFormula.remove(i + 1);
                     arrayFormula.remove(i);
-                    arrayFormula.set(i - 1, String.valueOf(lastResult));
-                    i -= 2;
+                    arrayFormula.set(i - 1, noDecimalResult);
+
+                    i = 0;
                     break;
 
                 case "x":
 
                     lastResult = operator.multiplication(arrayFormula, i - 1, i + 1);
+                    noDecimalResult = pN.tryNoDecimal(lastResult);
 
                     arrayFormula.remove(i + 1);
                     arrayFormula.remove(i);
-                    arrayFormula.set(i - 1, String.valueOf(lastResult));
-                    i -= 2;
+                    arrayFormula.set(i - 1, noDecimalResult);
+                    i = 0;
                     break;
             }
 
@@ -44,21 +47,23 @@ public class Calculation {
                 case "+":
 
                     lastResult = operator.addition(arrayFormula, i - 1, i + 1);
+                    noDecimalResult = pN.tryNoDecimal(lastResult);
 
                     arrayFormula.remove(i + 1);
                     arrayFormula.remove(i);
-                    arrayFormula.set(i - 1, String.valueOf(lastResult));
-                    i -= 2;
+                    arrayFormula.set(i - 1, noDecimalResult);
+                    i = 0;
                     break;
 
                 case "-":
 
                     lastResult = operator.subtraction(arrayFormula, i - 1, i + 1);
+                    noDecimalResult = pN.tryNoDecimal(lastResult);
 
                     arrayFormula.remove(i + 1);
                     arrayFormula.remove(i);
-                    arrayFormula.set(i - 1, String.valueOf(lastResult));
-                    i -= 2;
+                    arrayFormula.set(i - 1, noDecimalResult);
+                    i = 0;
                     break;
             }
 
