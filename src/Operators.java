@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 public class Operators {
 
+    Exceptions exception = new Exceptions();
+
     public double multiplication(ArrayList<String> arrayFormula, int index1, int index2) {
 
         double multiplicationResult = (Double.parseDouble(arrayFormula.get(index1)))
@@ -28,15 +30,25 @@ public class Operators {
     }
 
     public double division(ArrayList<String> arrayFormula, int index1, int index2) {
+        double divisionResult;
 
         if (arrayFormula.get(index2).equals("0")) {
-            System.out.println("Invalid division, numbers aren't divisible by zero!");
-            return 0;
+            
+            do {
+                arrayFormula = exception.divisionByZero(arrayFormula, index1, index2);
+
+                divisionResult = (Double.parseDouble(arrayFormula.get(index1)))
+                        / (Double.parseDouble(arrayFormula.get(index2)));
+
+            } while ((arrayFormula.get(index2).equals("0")));
+
+            return divisionResult;
+
         }
 
         else {
 
-            double divisionResult = (Double.parseDouble(arrayFormula.get(index1)))
+            divisionResult = (Double.parseDouble(arrayFormula.get(index1)))
                     / (Double.parseDouble(arrayFormula.get(index2)));
 
             return divisionResult;

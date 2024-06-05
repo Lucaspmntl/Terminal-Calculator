@@ -6,9 +6,9 @@ public class MainApp {
         Scanner input = new Scanner(System.in);
         ArrayList<String> originalNumbersArray = new ArrayList<>();
 
-        ParseNumbers parseNumbers = new ParseNumbers();
         Calculation calculus = new Calculation();
         Options options = new Options();
+        SetFormula setFormula = new SetFormula();
 
         String option = "";
 
@@ -29,6 +29,7 @@ public class MainApp {
 
         outerLoop: while (!option.equals("e")) {
 
+            option = "";
             System.out.print("Your calculation formula: " + lastResult);
 
             option = options.parseOptions(formula);
@@ -41,7 +42,9 @@ public class MainApp {
                 case "c":
                     lastResult = "";
                     options.spamNewLines();
+                    originalNumbersArray.clear();
                     System.out.print("Your calculation formula: ");
+
                     break;
 
                 default:
@@ -50,14 +53,14 @@ public class MainApp {
 
             formula = input.nextLine();
 
-            originalNumbersArray = parseNumbers.setFormula(formula, originalNumbersArray, lastResult);
+            originalNumbersArray = setFormula.setFormula(formula, originalNumbersArray, lastResult);
 
             lastResult = calculus.calResult(originalNumbersArray);
             System.out.println(lastResult);
 
         }
 
-        System.out.println("\n\n\n");
+        System.out.println("\n");
         System.out.println("Bye!");
         input.close();
     }
