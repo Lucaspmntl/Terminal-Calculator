@@ -6,22 +6,25 @@ public class Exceptions {
     Scanner input = new Scanner(System.in);
     ParseNumbers pN = new ParseNumbers();
 
-    public String tryAgain(String formula) {
+    public String invalidOperator(String formula) {
 
         System.out.println();
-        System.out.print("try your formula again: ");
-        formula = input.nextLine();
+        System.out.println("!> !> ERROR! THERE IS AN INVALID OR NO OPERATOR <! <!");
+        System.out.println();
+        System.out.println("Valid operators: (x, -, +, / and \".\" or \",\" to float numbers!)");
+        System.out.println();
+        System.out.print("Try again with invalid operators: ");
+        String newFormula = input.nextLine();
+
+        formula = newFormula;
 
         return formula;
     }
 
     public String lastNotCharacter(String formula, ArrayList<String> arrayFormula, String lastResult) {
 
-        // String arrayString = arrayFormula.toString();
         int lastIndex = formula.length() - 1;
         String lastChar = String.valueOf(formula.charAt(lastIndex));
-
-        // mecher no array e não na formula
 
         if (arrayFormula.isEmpty() == true) {
 
@@ -55,7 +58,6 @@ public class Exceptions {
         else if (arrayFormula.isEmpty() == false) {
 
             StringBuilder formulaBuffer = new StringBuilder(formula);
-            StringBuilder arrayBuffer = new StringBuilder(formula);
 
             System.out.println();
             System.out.println("!> !> ERROR! THE LAST CHARACTER ISN'T A NUMBER <! <!");

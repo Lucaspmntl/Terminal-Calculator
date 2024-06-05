@@ -5,7 +5,6 @@ public class ParseNumbers {
 
     ArrayList<String> originalNumbers = new ArrayList<>();
 
-    Exceptions error = new Exceptions();
     ParseStrings pS = new ParseStrings();
 
     public String tryNoDecimal(double doubleNumber) {
