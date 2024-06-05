@@ -4,7 +4,7 @@ public class SetFormula {
 
     private String[] acceptedOperators = { "+", "-", "x", "/" };
 
-    Exceptions error = new Exceptions();
+    Exceptions exceptions = new Exceptions();
     ParseStrings pS = new ParseStrings();
     ParseNumbers pN = new ParseNumbers();
 
@@ -13,10 +13,11 @@ public class SetFormula {
         String numbers = "";
         int indexArray = 0;
         boolean conditionFirstCharMet = false;
+        int formulaLength = formula.length();
 
-        formula = pS.removeSpaceChars(formula);
+        for (int i = 0; i < formulaLength; i++) {
 
-        for (int i = 0; i < formula.length(); i++) {
+            formula = pS.removeSpaceChars(formula);
 
             if (i == 0 && conditionFirstCharMet == false) { // if is the first character
 
@@ -35,12 +36,21 @@ public class SetFormula {
                     i = -1;
                 }
 
-                else if (pN.charIsNumb(formula, i) == false && lastResult.equals("")) {
-                    System.out.println("Error! the first character isn't a number!");
+                else if (pN.charIsNumb(formula, i) == false && lastResult.equals("")
+                        && !pS.getChar(formula, i).equals("e")) {
+
+                    do {
+                        formula = exceptions.firstNotCharacter(formula);
+
+                    } while (pN.charIsNumb(formula, i) == false);
+
+                    numbers += pS.getChar(formula, i);
                 }
+
             }
 
             else if (i == formula.length() - 1) { // if is the last character
+
                 if (pN.charIsNumb(formula, i) == true) {
                     numbers += pS.getChar(formula, i);
                     arrayFormula.add(indexArray, numbers);
@@ -48,8 +58,9 @@ public class SetFormula {
 
                 // if isn't a number and isn't "clear" ("c")
                 else if (pN.charIsNumb(formula, i) == false && !pS.getChar(formula, i).equals("c")) {
-                    System.out.println("Error! the last character isn't a number");
+                    formula = exceptions.lastNotCharacter(formula, arrayFormula, lastResult);
 
+                    i--;
                 }
 
             }
@@ -106,6 +117,7 @@ public class SetFormula {
 
             }
 
+            formulaLength = formula.length();
         }
         return arrayFormula;
     }

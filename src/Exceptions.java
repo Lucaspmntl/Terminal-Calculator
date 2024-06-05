@@ -15,29 +15,57 @@ public class Exceptions {
         return formula;
     }
 
-    public String lastNotCharacter(String formula, ArrayList<String> arrayFormula) {
+    public String lastNotCharacter(String formula, ArrayList<String> arrayFormula, String lastResult) {
 
-        String arrayString = arrayFormula.toString();
+        // String arrayString = arrayFormula.toString();
         int lastIndex = formula.length() - 1;
         String lastChar = String.valueOf(formula.charAt(lastIndex));
 
         // mecher no array e não na formula
 
-        while (!pN.isNumb(lastChar)) {
+        if (arrayFormula.isEmpty() == true) {
+
+            while (!pN.isNumb(lastChar)) {
+
+                StringBuilder formulaBuffer = new StringBuilder(formula);
+
+                System.out.println();
+                System.out.println("!> !> ERROR! THE LAST CHARACTER ISN'T A NUMBER <! <!");
+                System.out.println();
+
+                System.out.print("Try a number in last character: ");
+
+                System.out.print(lastResult);
+
+                formulaBuffer.deleteCharAt(lastIndex);
+                System.out.print(formulaBuffer);
+
+                String newCharacter = input.nextLine();
+
+                formulaBuffer.append(newCharacter);
+
+                formula = formulaBuffer.toString();
+
+                lastIndex = formula.length() - 1;
+                lastChar = String.valueOf(formula.charAt(lastIndex));
+            }
+
+        }
+
+        else if (arrayFormula.isEmpty() == false) {
 
             StringBuilder formulaBuffer = new StringBuilder(formula);
-            StringBuilder arrayBuffer = new StringBuilder(arrayString);
-            arrayBuffer.deleteCharAt(0);
-            arrayBuffer.deleteCharAt(arrayBuffer.length() - 1);
+            StringBuilder arrayBuffer = new StringBuilder(formula);
 
             System.out.println();
             System.out.println("!> !> ERROR! THE LAST CHARACTER ISN'T A NUMBER <! <!");
             System.out.println();
 
             System.out.print("Try a number in last character: ");
+            System.out.print(lastResult);
 
             formulaBuffer.deleteCharAt(lastIndex);
-            System.out.print(arrayBuffer);
+
             System.out.print(formulaBuffer);
 
             String newCharacter = input.nextLine();
